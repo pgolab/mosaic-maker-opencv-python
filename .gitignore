@@ -1,0 +1,4 @@
+.idea
+*.iml
+assets/*
+__pycache__
