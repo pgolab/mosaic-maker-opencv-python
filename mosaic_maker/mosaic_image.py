@@ -22,9 +22,10 @@ class MosaicImage:
 
     @staticmethod
     def _crop_image_to_patch_size(image, patch_size):
-        # ToDo crop image so it is divisible by patch_size
-        # https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
-        return image
+        height, width, _ = image.shape
+        new_width = width - width % patch_size
+        new_height = height - height % patch_size
+        return image[0:new_height, 0:new_width]
 
     def compose_mosaic(self):
         print('BUILDING MOSAIC')
@@ -54,14 +55,17 @@ class MosaicImage:
         self.processing_image = False
 
     def _select_patch_for(self, x, y, mosaic, sobel_mosaic, target_image_copy, target_sobel_image_copy):
-        # ToDo create patch for current position
+        patched_part = self.target_image[y:y + self.patch_size, x:x + self.patch_size]
+        sobel_patched_part = self.target_sobel_image[y:y + self.patch_size, x:x + self.patch_size]
 
-        # ToDo select patch from patch picker
+        target_patch = Patch('patch', patched_part, sobel_patched_part)
+        selected_patch = self.patch_picker.pick_patch_for(target_patch)
 
-        # ToDo update mosaic and draw current window on images copies
-        # https://docs.opencv.org/2.4/modules/core/doc/drawing_functions.html#rectangle
+        mosaic[y:y + self.patch_size, x:x + self.patch_size] = selected_patch.image
+        sobel_mosaic[y:y + self.patch_size, x:x + self.patch_size] = selected_patch.sobel_image
 
-        return
+        cv2.rectangle(target_image_copy, (x, y), (x + self.patch_size, y + self.patch_size), (0, 255, 0), 1)
+        cv2.rectangle(target_sobel_image_copy, (x, y), (x + self.patch_size, y + self.patch_size), 255, 1)
 
     def _progress_display_loop(self, mosaic, sobel_mosaic, target_image_copy, target_sobel_image_copy):
         while self.processing_image:
