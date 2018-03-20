@@ -21,10 +21,9 @@ class Patch:
         features = np.array([], dtype=np.float32)
 
         if USE_SOBEL_DESCRIPTOR:
-            # ToDo change sobel image into 1 dimensional array with items in range 0-1
-            # https://docs.scipy.org/doc/numpy-1.12.0/reference/generated/numpy.ndarray.flatten.html
-            # https://docs.opencv.org/2.4/modules/core/doc/operations_on_arrays.html?highlight=normalize#cv2.normalize
-            features = np.append(features, [])
+            flatten_image = np.float32(self.sobel_image).flatten()
+            cv2.normalize(flatten_image, flatten_image)
+            features = np.append(features, flatten_image)
 
         if USE_HISTOGRAM_DESCRIPTOR:
             histogram_grid = self._get_grid_division()

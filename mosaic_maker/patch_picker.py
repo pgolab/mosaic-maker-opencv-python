@@ -63,17 +63,20 @@ class PatchPicker:
         return descriptions_dict
 
     def pick_patch_for(self, target_patch):
+        sobel_vector_length = PATCH_SIZE ** 2
+
         sobel_distances = np.array([], np.float32)
         histogram_distances = np.array([], np.float32)
 
         for patch in self.patches:
             if USE_SOBEL_DESCRIPTOR:
-                # ToDo extract sobel part of patches features
+                patch_sobel_vector = patch.features[:sobel_vector_length]
+                target_patch_sobel_vector = target_patch.features[:sobel_vector_length]
 
-                # ToDo compare both vectors - what metric seems good for this end?
-                # https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
+                diff = (target_patch_sobel_vector - patch_sobel_vector) ** 2
+                distance = np.sum(diff)
 
-                sobel_distances = np.append(sobel_distances, 0)
+                sobel_distances = np.append(sobel_distances, distance)
 
             if USE_HISTOGRAM_DESCRIPTOR:
                 # ToDo extract histogram part of patches features - what metric works best?
@@ -88,9 +91,7 @@ class PatchPicker:
             # https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.argmin.html
             best_patch_index = 0
         elif not USE_HISTOGRAM_DESCRIPTOR:
-            # ToDo get best patch index based on histogram distances
-            # https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.argmin.html
-            best_patch_index = 0
+            best_patch_index = np.argmin(sobel_distances)
         else:
             # ToDo combine sobel and histogram information
             # https://docs.opencv.org/2.4/modules/core/doc/operations_on_arrays.html#normalize
