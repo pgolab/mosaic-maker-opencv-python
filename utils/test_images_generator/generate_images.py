@@ -26,33 +26,36 @@ def generate_patches_set(set_name, patch_size, count, target_width, target_heigh
     images_path = PROJECT_ROOT / Path('assets/source-images/{}'.format(set_name))
     images_path.mkdir(parents=True, exist_ok=True)
 
-    # ToDo generate full color patches
-    # https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.full.html
+    colors = list(AVAILABLE_COLORS_DICT.values())
+    colors.append((255, 255, 255))
+    full_color_images = list(map(lambda color: np.full((patch_size, patch_size, 3), color, dtype=np.uint8), colors))
 
     generated_patches = 0
+
+    for color_image in full_color_images:
+        cv2.imwrite('{}/{:04d}.jpg'.format(images_path.as_posix(), generated_patches), color_image)
+        generated_patches += 1
 
     while generated_patches < count:
         generated_image = _generate_random_image(target_width, target_height)
         cv2.imshow('generated image', generated_image)
         cv2.waitKey(1)
 
-        # ToDo remove break after implementing loop below
-        break
-
         for y in range(0, target_height - patch_size, patch_size):
             for x in range(0, target_width - patch_size, patch_size):
                 if generated_patches >= count:
                     continue
 
-                # ToDo get patch from generated image
-                # https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
+                patch = generated_image[y:y + patch_size, x:x + patch_size]
 
                 is_patch_interesting = True
 
-                # ToDo check if patch is not filled with one color
+                for color_image in full_color_images:
+                    if np.array_equal(patch, color_image):
+                        is_patch_interesting = False
 
                 if is_patch_interesting:
-                    # ToDo save patch
+                    cv2.imwrite('{}/{:04d}.jpg'.format(images_path.as_posix(), generated_patches), patch)
                     generated_patches += 1
 
                     print('GENERATED {:04d} OF {} PATCHES'.format(generated_patches, count))
@@ -72,14 +75,11 @@ def generate_target_image(image_name, width, height):
 
 
 def _generate_random_image(width, height):
-    generated_image = np.zeros((height, width, 3), dtype=np.uint8)
-    # ToDo generate white image
-    # https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.full.html
+    generated_image = np.full((height, width, 3), (255, 255, 255), dtype=np.uint8)
 
-    # ToDo choose random number of shapes from AVAILABLE_SHAPES_DICT
-    # https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.random.choice.html
+    shapes_count = np.random.randint(5, 10)
 
-    chosen_shapes = []
+    chosen_shapes = np.random.choice(list(AVAILABLE_SHAPES_DICT.values()), shapes_count)
 
     for shape in chosen_shapes:
         if shape == AVAILABLE_SHAPES_DICT['LINE']:
@@ -95,33 +95,26 @@ def _generate_random_image(width, height):
 
 
 def _draw_random_line(generated_image):
-    # ToDo draw random line (use _generate_random_image_points and _get_random_color)
-    # https://docs.opencv.org/3.1.0/dc/da5/tutorial_py_drawing_functions.html
-    # https://docs.opencv.org/2.4/modules/core/doc/drawing_functions.html
-    return
+    line_points = _generate_random_image_points(generated_image, 2)
+    cv2.line(generated_image, line_points[0], line_points[1], _get_random_color(), 2)
 
 
 def _draw_random_triangle(generated_image):
-    # ToDo draw random triangle (use _generate_random_image_points and _get_random_color)
-    # https://docs.opencv.org/3.1.0/dc/da5/tutorial_py_drawing_functions.html
-    # https://docs.opencv.org/2.4/modules/core/doc/drawing_functions.html
-    # format for triangle: reshape((-1, 1, 2)
-    # https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.reshape.html
-    return
+    triangle_points = _generate_random_image_points(generated_image, 3)
+    reshaped_triangle_points = np.array(triangle_points).reshape((-1, 1, 2))
+    cv2.fillConvexPoly(generated_image, reshaped_triangle_points, _get_random_color())
 
 
 def _draw_random_rectangle(generated_image):
-    # ToDo draw random line (use _generate_random_image_points and _get_random_color)
-    # https://docs.opencv.org/3.1.0/dc/da5/tutorial_py_drawing_functions.html
-    # https://docs.opencv.org/2.4/modules/core/doc/drawing_functions.html
-    return
+    rectangle_points = _generate_random_image_points(generated_image, 2)
+    cv2.rectangle(generated_image, rectangle_points[0], rectangle_points[1], _get_random_color(), -1)
 
 
 def _draw_random_circle(generated_image):
-    # ToDo draw random line (use _generate_random_image_points and _get_random_color)
-    # https://docs.opencv.org/3.1.0/dc/da5/tutorial_py_drawing_functions.html
-    # https://docs.opencv.org/2.4/modules/core/doc/drawing_functions.html
-    return
+    center = _generate_random_image_points(generated_image, 1)
+    max_radius = min(generated_image.shape[0], generated_image.shape[1]) / 2
+    radius = np.random.randint(0, max_radius)
+    cv2.circle(generated_image, center[0], radius, _get_random_color(), -1)
 
 
 def _generate_random_image_points(image, count):
@@ -131,9 +124,8 @@ def _generate_random_image_points(image, count):
 
 
 def _get_random_color():
-    # ToDo choose random color from AVAILABLE_COLORS_DICT
-    # https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.random.choice.html
-    return (0, 0, 0)
+    selected_color = np.random.choice(list(AVAILABLE_COLORS_DICT.keys()))
+    return AVAILABLE_COLORS_DICT[selected_color]
 
 
 if __name__ == "__main__":
