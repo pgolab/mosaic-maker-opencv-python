@@ -79,17 +79,14 @@ class PatchPicker:
                 sobel_distances = np.append(sobel_distances, distance)
 
             if USE_HISTOGRAM_DESCRIPTOR:
-                # ToDo extract histogram part of patches features - what metric works best?
-                # https://docs.opencv.org/3.3.0/d6/dc7/group__imgproc__hist.html
-                # https://docs.opencv.org/3.3.0/d6/dc7/group__imgproc__hist.html#gaf4190090efa5c47cb367cf97a9a519bd
+                patch_histogram_vector = patch.features[-HISTOGRAM_VECTOR_LENGTH:]
+                target_patch_histogram_vector = target_patch.features[-HISTOGRAM_VECTOR_LENGTH:]
 
-                # ToDo compare awesome opencv compare hist implementation with one written by yourself
-                histogram_distances = np.append(histogram_distances, 0)
+                distance = cv2.compareHist(target_patch_histogram_vector, patch_histogram_vector, cv2.HISTCMP_CHISQR_ALT)
+                histogram_distances = np.append(histogram_distances, distance)
 
         if not USE_SOBEL_DESCRIPTOR:
-            # ToDo get best patch index based on sobel distances
-            # https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.argmin.html
-            best_patch_index = 0
+            best_patch_index = np.argmin(histogram_distances)
         elif not USE_HISTOGRAM_DESCRIPTOR:
             best_patch_index = np.argmin(sobel_distances)
         else:

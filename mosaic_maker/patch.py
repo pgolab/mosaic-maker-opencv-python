@@ -29,17 +29,15 @@ class Patch:
             histogram_grid = self._get_grid_division()
 
             for (x0, y0, x1, y1) in histogram_grid:
-                # ToDo convert image color space to one with uniform values
-                # https://docs.opencv.org/2.4/modules/imgproc/doc/miscellaneous_transformations.html#cvtcolor
+                cielab_grid_part = cv2.cvtColor(self.image[y0:y1,x0:x1], cv2.COLOR_BGR2Lab)
 
-                # ToDo calculate 3d histogram of converted image
-                # https://docs.opencv.org/3.1.0/d1/db7/tutorial_py_histogram_begins.html
-                # https://docs.opencv.org/3.1.0/dd/d0d/tutorial_py_2d_histogram.html
-
-                # ToDo normalize histogram
-                # https://docs.opencv.org/2.4/modules/core/doc/operations_on_arrays.html?highlight=normalize#cv2.normalize
-
-                features = np.append(features, [])
+                histogram = cv2.calcHist([cielab_grid_part],
+                                         [0, 1, 2],
+                                         None,
+                                         HISTOGRAM_BUCKETS,
+                                         [0, 255, 0, 255, 0, 255])
+                cv2.normalize(histogram, histogram)
+                features = np.append(features, histogram.flatten())
 
         return features
 
