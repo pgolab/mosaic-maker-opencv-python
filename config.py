@@ -6,11 +6,9 @@ PROJECT_ROOT = Path(__file__).parent
 IMAGES_SET = 'test'
 TARGET_IMAGE = 'test-target.jpg'
 
-# ToDo set better parameters values
-
 PATCH_SIZE = 16
 
-SOBEL_BLUR_KERNEL_SHAPE = (5, 5)
+SOBEL_BLUR_KERNEL_SHAPE = (3, 3)
 EDGES_LOWER_THRESHOLD = 120
 
 HISTOGRAM_GRID_SHAPE = (4, 4)
@@ -18,9 +16,9 @@ HISTOGRAM_BUCKETS = (8, 8, 8)
 HISTOGRAM_VECTOR_LENGTH = functools.reduce(operator.mul, HISTOGRAM_GRID_SHAPE, 1) \
                           * functools.reduce(operator.mul, HISTOGRAM_BUCKETS, 1)
 
-MAX_ACCEPTED_MIN_HISTOGRAM_DISTANCE = 0.9
+MAX_ACCEPTED_MIN_HISTOGRAM_DISTANCE = 0.006
 
-USE_SOBEL_DESCRIPTOR = False
+USE_SOBEL_DESCRIPTOR = True
 USE_HISTOGRAM_DESCRIPTOR = True
 
 SET_DESCRIPTION_CSV_FILE_NAME = 'set-description.csv'
