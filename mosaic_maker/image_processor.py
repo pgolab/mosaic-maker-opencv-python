@@ -20,23 +20,25 @@ class ImageProcessor:
 
     @staticmethod
     def _crop_to_square(image):
-        # ToDo return image cropped to center square
-        # https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
-        return image.copy()
+        min_dimension = min(image.shape[0], image.shape[1])
+
+        def get_offset(dimension): return int(floor((dimension - min_dimension) / 2))
+        x_offset = get_offset(image.shape[1])
+        y_offset = get_offset(image.shape[0])
+
+        return image.copy()[y_offset:y_offset + min_dimension, x_offset:x_offset + min_dimension]
 
     @staticmethod
     def calculate_sobel_magnitude_image(image):
-        # ToDo convert image to grayscale and blur the result
-        # https://docs.opencv.org/3.2.0/df/d9d/tutorial_py_colorspaces.html
+        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        blurred_image = cv2.blur(gray_image, SOBEL_BLUR_KERNEL_SHAPE)
 
-        # ToDo calculate gradients
-        # https://docs.opencv.org/3.2.0/d5/d0f/tutorial_py_gradients.html
+        gradient_x = cv2.Sobel(blurred_image, ddepth=cv2.CV_32F, dx=1, dy=0, ksize=-1)
+        gradient_y = cv2.Sobel(blurred_image, ddepth=cv2.CV_32F, dx=0, dy=1, ksize=-1)
+        gradient_x_image = cv2.convertScaleAbs(gradient_x)
+        gradient_y_image = cv2.convertScaleAbs(gradient_y)
+        edges = cv2.addWeighted(gradient_x_image, 0.5, gradient_y_image, 0.5, 0)
 
-        # ToDo process gradients into one
-        # https://docs.opencv.org/2.4/modules/core/doc/operations_on_arrays.html#convertscaleabs
-        # https://docs.opencv.org/2.4/modules/core/doc/operations_on_arrays.html?highlight=addweighted#addweighted
+        (_, thresholded) = cv2.threshold(edges, EDGES_LOWER_THRESHOLD, 255, cv2.THRESH_BINARY)
 
-        # ToDo threshold edges to get most important ones
-        # https://docs.opencv.org/3.1.0/d7/d4d/tutorial_py_thresholding.html
-
-        return image.copy()
+        return thresholded
