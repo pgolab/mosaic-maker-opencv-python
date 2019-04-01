@@ -32,7 +32,8 @@ def _build_search_request(query, results_count=10, offset=0, results_size='mediu
         'count': results_count,
         'offset': offset,
         'size': results_size,
-        'imagetype': 'photo'
+        't': 'photo',
+        'uiv': 1
     }
     headers = {
         'User-Agent': 'MosaicApp/0.0 lab project for OpenCV classes'
