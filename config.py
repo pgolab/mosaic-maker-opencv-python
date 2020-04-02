@@ -3,8 +3,8 @@ import operator
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent
-IMAGES_SET = 'underwater'
-TARGET_IMAGE = 'nemo.jpg'
+IMAGES_SET = 'wild'
+TARGET_IMAGE = 'eagle.jpg'
 
 PATCH_SIZE = 32
 
