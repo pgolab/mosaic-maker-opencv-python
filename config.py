@@ -3,8 +3,8 @@ import operator
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent
-IMAGES_SET = 'wild'
-TARGET_IMAGE = 'eagle.jpg'
+IMAGES_SET = 'test'
+TARGET_IMAGE = 'test-target.jpg'
 
 PATCH_SIZE = 32
 
@@ -21,7 +21,7 @@ MAX_ACCEPTED_MIN_HISTOGRAM_DISTANCE = 0.003
 USE_SOBEL_DESCRIPTOR = True
 USE_HISTOGRAM_DESCRIPTOR = True
 
-SET_DESCRIPTION_CSV_FILE_NAME = 'set-description.csv'
+DESCRIPTION_CSV_FILE_NAME = 'set-description.csv'
 
 assert PATCH_SIZE % HISTOGRAM_GRID_SHAPE[0] == 0 and PATCH_SIZE % HISTOGRAM_GRID_SHAPE[1] == 0,\
     'HISTOGRAM_GRID_SHAPE dimensions have to be divisors of the PATCH_SIZE'

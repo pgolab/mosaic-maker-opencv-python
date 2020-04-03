@@ -4,9 +4,9 @@ from imutils import resize
 
 import threading
 
-from mosaic_maker.image_processor import ImageProcessor
+from mosaic_maker.basic_processing.image_processor import ImageProcessor
 
-from mosaic_maker.patch import Patch
+from mosaic_maker.patch.patch import Patch
 
 
 class MosaicImage:

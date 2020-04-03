@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from pathlib import Path
 
 from config import PROJECT_ROOT, PATCH_SIZE
 
@@ -9,7 +8,7 @@ from utils.test_images_generator.random_image_generator import generate_random_i
 
 
 def generate_patches_set(set_name, patch_size, count, target_width, target_height):
-    images_path = PROJECT_ROOT / Path('assets/source-images/{}'.format(set_name))
+    images_path = PROJECT_ROOT / 'assets/source-images/{}'.format(set_name)
     images_path.mkdir(parents=True, exist_ok=True)
 
     # ---------------------------------------------------------------------------------------
@@ -57,7 +56,7 @@ def generate_patches_set(set_name, patch_size, count, target_width, target_heigh
 def generate_target_image(image_name, width, height):
     generated_image = generate_random_image(width, height)
 
-    image_path = PROJECT_ROOT / Path('assets/{}'.format(image_name))
+    image_path = PROJECT_ROOT / 'assets/{}'.format(image_name)
 
     cv2.imwrite(image_path.as_posix(), generated_image)
     cv2.imshow('generated image', generated_image)

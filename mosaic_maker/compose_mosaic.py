@@ -1,8 +1,8 @@
 import cv2
 from imutils import resize
 from config import PROJECT_ROOT, TARGET_IMAGE, IMAGES_SET, PATCH_SIZE
-from mosaic_maker.mosaic_image import MosaicImage
-from mosaic_maker.patch_picker import PatchPicker
+from mosaic_maker.mosaic.mosaic_image import MosaicImage
+from mosaic_maker.mosaic.patch_picker import PatchPicker
 
 
 def compose_mosaic(image_path, set_name, patch_size, output_path):
@@ -22,11 +22,9 @@ def compose_mosaic(image_path, set_name, patch_size, output_path):
 
     cv2.imwrite(output_path, mosaic)
 
-    cv2.waitKey()
-
-
 if __name__ == "__main__":
     compose_mosaic('{}/assets/{}'.format(PROJECT_ROOT.as_posix(), TARGET_IMAGE), IMAGES_SET, PATCH_SIZE,
                    '{}/assets/{}'.format(PROJECT_ROOT.as_posix(), 'output.jpg'))
+    cv2.waitKey()
 
 
