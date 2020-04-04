@@ -8,7 +8,7 @@ from utils.test_images_generator.random_image_generator import generate_random_i
 
 
 def generate_patches_set(set_name, patch_size, count, target_width, target_height):
-    images_path = PROJECT_ROOT / 'assets/source-images/{}'.format(set_name)
+    images_path = PROJECT_ROOT / f'assets/source-images/{set_name}'
     images_path.mkdir(parents=True, exist_ok=True)
 
     # ---------------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ def generate_patches_set(set_name, patch_size, count, target_width, target_heigh
     generated_patches = 0
 
     for color_image in full_color_images:
-        cv2.imwrite('{}/{:04d}.jpg'.format(images_path.as_posix(), generated_patches), color_image)
+        cv2.imwrite(f'{images_path.as_posix()}/{generated_patches:04d}.jpg', color_image)
         generated_patches += 1
 
     while generated_patches < count:
@@ -47,16 +47,16 @@ def generate_patches_set(set_name, patch_size, count, target_width, target_heigh
                         is_patch_interesting = False
 
                 if is_patch_interesting:
-                    cv2.imwrite('{}/{:04d}.jpg'.format(images_path.as_posix(), generated_patches), patch)
+                    cv2.imwrite(f'{images_path.as_posix()}/{generated_patches:04d}.jpg', patch)
                     generated_patches += 1
 
-                    print('\rGENERATED {:04d} OF {} PATCHES'.format(generated_patches, count), end='')
+                    print(f'\rGENERATED {generated_patches:04d} OF {count} PATCHES', end='')
 
 
 def generate_target_image(image_name, width, height):
     generated_image = generate_random_image(width, height)
 
-    image_path = PROJECT_ROOT / 'assets/{}'.format(image_name)
+    image_path = PROJECT_ROOT / f'assets/{image_name}'
 
     cv2.imwrite(image_path.as_posix(), generated_image)
     cv2.imshow('generated image', generated_image)

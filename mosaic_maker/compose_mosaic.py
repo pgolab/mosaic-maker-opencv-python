@@ -6,7 +6,7 @@ from mosaic_maker.mosaic.patch_picker import PatchPicker
 
 
 def compose_mosaic(image_path, set_name, patch_size, output_path):
-    patches_path = PROJECT_ROOT / 'assets/indexed-sources/{}'.format(set_name)
+    patches_path = PROJECT_ROOT / f'assets/indexed-sources/{set_name}'
     patch_picker = PatchPicker(set_name, patches_path)
 
     target_image = cv2.imread(image_path)
@@ -22,9 +22,11 @@ def compose_mosaic(image_path, set_name, patch_size, output_path):
 
     cv2.imwrite(output_path, mosaic)
 
+
 if __name__ == "__main__":
-    compose_mosaic('{}/assets/{}'.format(PROJECT_ROOT.as_posix(), TARGET_IMAGE), IMAGES_SET, PATCH_SIZE,
-                   '{}/assets/{}'.format(PROJECT_ROOT.as_posix(), 'output.jpg'))
+    compose_mosaic(f'{PROJECT_ROOT.as_posix()}/assets/{TARGET_IMAGE}',
+                   IMAGES_SET, PATCH_SIZE,
+                   f'{PROJECT_ROOT.as_posix()}/assets/output.jpg')
     cv2.waitKey()
 
 

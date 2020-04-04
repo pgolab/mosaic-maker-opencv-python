@@ -4,8 +4,8 @@ from mosaic_maker.basic_processing.image_processor import ImageProcessor
 
 
 def index_images(set_name, patch_size):
-    source_path = PROJECT_ROOT / 'assets/source-images/{}'.format(set_name)
-    target_path = PROJECT_ROOT / 'assets/indexed-sources/{}'.format(set_name)
+    source_path = PROJECT_ROOT / f'assets/source-images/{set_name}'
+    target_path = PROJECT_ROOT / f'assets/indexed-sources/{set_name}'
     images_target_path = target_path / 'images'
     sobel_images_target_path = target_path / 'sobel-images'
     description_target_path = target_path / DESCRIPTION_CSV_FILE_NAME
@@ -22,7 +22,7 @@ def index_images(set_name, patch_size):
         if image_name.startswith('.'):
             continue
 
-        print('\r  > {}'.format(image_name), end='')
+        print(f'\r  > {image_name}', end='')
 
         image = cv2.imread(image_path.as_posix())
 
@@ -31,9 +31,9 @@ def index_images(set_name, patch_size):
             continue
 
         processed_image = ImageProcessor(image_name, image, patch_size).processed_image
-        cv2.imwrite('{}/{}'.format(images_target_path.as_posix(), image_name), processed_image.image)
-        cv2.imwrite('{}/{}'.format(sobel_images_target_path.as_posix(), image_name), processed_image.sobel_image)
-        description_file.write('{}\n'.format(str(processed_image)))
+        cv2.imwrite(f'{images_target_path.as_posix()}/{image_name}', processed_image.image)
+        cv2.imwrite(f'{sobel_images_target_path.as_posix()}/{image_name}', processed_image.sobel_image)
+        description_file.write(f'{str(processed_image)}\n')
 
     description_file.close()
 

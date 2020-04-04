@@ -74,5 +74,5 @@ class Patch:
         return grid
 
     def __str__(self):
-        return '{},{}'.format(self.name, ','.join(str(value) for value in self.features))
-
+        features_string = ','.join(str(value) for value in self.features)
+        return f'{self.name},{features_string}'

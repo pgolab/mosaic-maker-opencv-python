@@ -105,23 +105,23 @@ class PatchPicker:
             # ------------------------------------------------------------------------
             # ToDo get best patch index based on sobel distances
             # https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.argmin.html
-            best_patch_index = 0
+            best_patch_index = np.random.randint(0, self.patches.size)
             # ------------------------------------------------------------------------
             # best_patch_index = np.argmin(histogram_distances)
         elif not USE_HISTOGRAM_DESCRIPTOR:
             # ------------------------------------------------------------------------
             # ToDo get best patch index based on histogram distances
             # https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.argmin.html
-            best_patch_index = 0
+            best_patch_index = np.random.randint(0, self.patches.size)
             # ------------------------------------------------------------------------
-            best_patch_index = np.argmin(sobel_distances)
+            # best_patch_index = np.argmin(sobel_distances)
         else:
             # ------------------------------------------------------------------------
             # ToDo combine sobel and histogram information
             # https://docs.opencv.org/2.4/modules/core/doc/operations_on_arrays.html#normalize
             # https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
             # https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.where.html
-            best_patch_index = 0
+            best_patch_index = np.random.randint(0, self.patches.size)
             # ------------------------------------------------------------------------
             # cv2.normalize(sobel_distances, sobel_distances)
             # cv2.normalize(histogram_distances, histogram_distances)

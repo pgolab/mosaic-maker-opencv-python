@@ -10,10 +10,10 @@ from mosaic_maker.patch.patch import Patch
 
 
 class MosaicImage:
-    def __init__(self, image, patch_size, pach_picker):
+    def __init__(self, image, patch_size, patch_picker):
         self.original_image = image
         self.patch_size = patch_size
-        self.patch_picker = pach_picker
+        self.patch_picker = patch_picker
 
         self.target_image = self._crop_image_to_patch_size(image.copy(), patch_size)
         self.target_sobel_image = ImageProcessor.calculate_sobel_magnitude_image(self.target_image)
@@ -22,6 +22,10 @@ class MosaicImage:
 
     @staticmethod
     def _crop_image_to_patch_size(image, patch_size):
+        # ---------------------------------------------------------------------------------------
+        # ToDo crop image so it is divisible by patch_size
+        # return image
+        # ---------------------------------------------------------------------------------------
         height, width, _ = image.shape
         new_width = width - width % patch_size
         new_height = height - height % patch_size
@@ -55,6 +59,15 @@ class MosaicImage:
         self.processing_image = False
 
     def _select_patch_for(self, x, y, mosaic, sobel_mosaic, target_image_copy, target_sobel_image_copy):
+        # ---------------------------------------------------------------------------------------
+        # ToDo create patch for current position
+
+        # ToDo select patch from patch picker
+
+        # ToDo update mosaic and draw current window representation on images copies
+
+        # return
+        # ---------------------------------------------------------------------------------------
         patched_part = self.target_image[y:y + self.patch_size, x:x + self.patch_size]
         sobel_patched_part = self.target_sobel_image[y:y + self.patch_size, x:x + self.patch_size]
 
