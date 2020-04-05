@@ -89,17 +89,16 @@ class PatchPicker:
             if USE_HISTOGRAM_DESCRIPTOR:
                 # ------------------------------------------------------------------------
                 # ToDo extract histogram part of patches features - what metric works best?
-                # https://docs.opencv.org/3.3.0/d6/dc7/group__imgproc__hist.html
-                # https://docs.opencv.org/3.3.0/d6/dc7/group__imgproc__hist.html#gaf4190090efa5c47cb367cf97a9a519bd
+                # https://docs.opencv.org/master/d6/dc7/group__imgproc__hist.html#gaf4190090efa5c47cb367cf97a9a519bd
 
                 # ToDo compare awesome opencv compare hist implementation with one written by yourself
-                histogram_distances = np.append(histogram_distances, 0)
+                # histogram_distances = np.append(histogram_distances, 0)
                 # ------------------------------------------------------------------------
-                # patch_histogram_vector = patch.features[-HISTOGRAM_VECTOR_LENGTH:]
-                # target_patch_histogram_vector = target_patch.features[-HISTOGRAM_VECTOR_LENGTH:]
-                #
-                # distance = cv2.compareHist(target_patch_histogram_vector, patch_histogram_vector, cv2.HISTCMP_CHISQR_ALT)
-                # histogram_distances = np.append(histogram_distances, distance)
+                patch_histogram_vector = patch.features[-HISTOGRAM_VECTOR_LENGTH:]
+                target_patch_histogram_vector = target_patch.features[-HISTOGRAM_VECTOR_LENGTH:]
+
+                distance = cv2.compareHist(target_patch_histogram_vector, patch_histogram_vector, cv2.HISTCMP_CHISQR_ALT)
+                histogram_distances = np.append(histogram_distances, distance)
 
         if USE_SOBEL_DESCRIPTOR and not USE_HISTOGRAM_DESCRIPTOR:
             # ------------------------------------------------------------------------
@@ -112,9 +111,9 @@ class PatchPicker:
             # ------------------------------------------------------------------------
             # ToDo get best patch index based on histogram distances
             # https://docs.scipy.org/doc/numpy/reference/generated/numpy.argmin.html
-            best_patch_index = np.random.randint(0, self.patches.size)
+            # best_patch_index = np.random.randint(0, self.patches.size)
             # ------------------------------------------------------------------------
-            # best_patch_index = np.argmin(histogram_distances)
+            best_patch_index = np.argmin(histogram_distances)
         elif USE_HISTOGRAM_DESCRIPTOR and USE_SOBEL_DESCRIPTOR:
             # ------------------------------------------------------------------------
             # ToDo combine sobel and histogram information
