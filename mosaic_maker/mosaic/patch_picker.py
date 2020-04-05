@@ -117,20 +117,18 @@ class PatchPicker:
         elif USE_HISTOGRAM_DESCRIPTOR and USE_SOBEL_DESCRIPTOR:
             # ------------------------------------------------------------------------
             # ToDo combine sobel and histogram information
-            # https://docs.opencv.org/2.4/modules/core/doc/operations_on_arrays.html#normalize
-            # https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
-            # https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.where.html
-            best_patch_index = np.random.randint(0, self.patches.size)
+            # best_patch_index = np.random.randint(0, self.patches.size)
             # ------------------------------------------------------------------------
-            # cv2.normalize(sobel_distances, sobel_distances)
-            # cv2.normalize(histogram_distances, histogram_distances)
-            #
-            # sobel_distances_diff = sobel_distances - min(sobel_distances)
-            # histogram_distances_diff = histogram_distances - min(histogram_distances)
-            #
-            # best_matched_indices = np.where(histogram_distances_diff < MAX_ACCEPTED_MIN_HISTOGRAM_DISTANCE)[0]
-            # chosen_patches_values = sobel_distances_diff[best_matched_indices]
-            # best_patch_index = best_matched_indices[np.argmin(chosen_patches_values)]
+            cv2.normalize(sobel_distances, sobel_distances)
+            cv2.normalize(histogram_distances, histogram_distances)
+
+            sobel_distances_diff = sobel_distances - min(sobel_distances)
+            histogram_distances_diff = histogram_distances - min(histogram_distances)
+
+            best_matched_indices = np.where(histogram_distances_diff < MAX_ACCEPTED_MIN_HISTOGRAM_DISTANCE)[0]
+            chosen_patches_values = sobel_distances_diff[best_matched_indices]
+            print(chosen_patches_values.size)
+            best_patch_index = best_matched_indices[np.argmin(chosen_patches_values)]
         else:
             best_patch_index = 0
 
