@@ -49,13 +49,12 @@ class Patch:
                 # features = np.append(features, [])
                 # --------------------------------------------------------------------------------
                 grid_cell = self.image[y0:y1, x0:x1]
-                # COLOR_BGR2Lab
-                converted_grid_cell = cv2.cvtColor(grid_cell, cv2.COLOR_BGR2HSV)
+                converted_grid_cell = cv2.cvtColor(grid_cell, cv2.COLOR_BGR2Lab)
                 histogram = cv2.calcHist([converted_grid_cell],
                                          [0, 1, 2],
                                          None,
                                          HISTOGRAM_BUCKETS,
-                                         [0, 180, 0, 256, 0, 256])
+                                         [0, 256, 0, 256, 0, 256])
                 cv2.normalize(histogram, histogram)
 
                 features = np.append(features, histogram.flatten())

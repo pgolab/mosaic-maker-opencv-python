@@ -1,6 +1,6 @@
 import cv2
 from config import DESCRIPTION_CSV_FILE_NAME, \
-    MAX_ACCEPTED_MIN_HISTOGRAM_DISTANCE, PATCH_SIZE, \
+    ACCEPTED_HISTOGRAM_DISTANCE_MARGIN, PATCH_SIZE, \
     USE_SOBEL_DESCRIPTOR, USE_HISTOGRAM_DESCRIPTOR, HISTOGRAM_VECTOR_LENGTH
 import numpy as np
 
@@ -119,16 +119,18 @@ class PatchPicker:
             # ToDo combine sobel and histogram information
             # best_patch_index = np.random.randint(0, self.patches.size)
             # ------------------------------------------------------------------------
-            cv2.normalize(sobel_distances, sobel_distances)
-            cv2.normalize(histogram_distances, histogram_distances)
+            # cv2.normalize(sobel_distances, sobel_distances)
+            # cv2.normalize(histogram_distances, histogram_distances)
 
             sobel_distances_diff = sobel_distances - min(sobel_distances)
             histogram_distances_diff = histogram_distances - min(histogram_distances)
 
-            best_matched_indices = np.where(histogram_distances_diff < MAX_ACCEPTED_MIN_HISTOGRAM_DISTANCE)[0]
+            min_histogram_distance = np.min(histogram_distances_diff) * (1 + ACCEPTED_HISTOGRAM_DISTANCE_MARGIN)
+            best_matched_indices = np.where(histogram_distances_diff <= min_histogram_distance)[0]
             chosen_patches_values = sobel_distances_diff[best_matched_indices]
             print(chosen_patches_values.size)
             best_patch_index = best_matched_indices[np.argmin(chosen_patches_values)]
+            print(self.patches[best_patch_index].name)
         else:
             best_patch_index = 0
 
