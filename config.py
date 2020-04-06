@@ -3,15 +3,15 @@ import operator
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent
-IMAGES_SET = 'underwater'
-TARGET_IMAGE = 'nemo.jpg'
+IMAGES_SET = 'test'
+TARGET_IMAGE = 'test-target.jpg'
 
 PATCH_SIZE = 32
 
 SOBEL_BLUR_KERNEL_SHAPE = (3, 3)
 EDGES_LOWER_THRESHOLD = 120
 
-HISTOGRAM_GRID_SHAPE = (2, 2)
+HISTOGRAM_GRID_SHAPE = (4, 4)
 HISTOGRAM_BUCKETS = (8, 8, 8)
 HISTOGRAM_VECTOR_LENGTH = functools.reduce(operator.mul, HISTOGRAM_GRID_SHAPE, 1) \
                           * functools.reduce(operator.mul, HISTOGRAM_BUCKETS, 1)
