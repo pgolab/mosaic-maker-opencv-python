@@ -20,22 +20,12 @@ class ImageProcessor:
 
     @staticmethod
     def _crop_to_square(image):
-        # --------------------------------------------------------------------------------
         # ToDo return image cropped to center square
         # https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
-        # return image.copy()
-        # --------------------------------------------------------------------------------
-        min_dimension = min(image.shape[0], image.shape[1])
-
-        def get_offset(dimension): return int(floor((dimension - min_dimension) / 2))
-        x_offset = get_offset(image.shape[1])
-        y_offset = get_offset(image.shape[0])
-
-        return image.copy()[y_offset:y_offset + min_dimension, x_offset:x_offset + min_dimension]
+        return image.copy()
 
     @staticmethod
     def calculate_sobel_magnitude_image(image):
-        # --------------------------------------------------------------------------------
         # ToDo convert image to grayscale and blur the result
         # https://docs.opencv.org/master/df/d9d/tutorial_py_colorspaces.html
         # https://docs.opencv.org/master/d4/d13/tutorial_py_filtering.html
@@ -50,17 +40,4 @@ class ImageProcessor:
         # ToDo threshold edges to get most important ones
         # https://docs.opencv.org/master/d7/d4d/tutorial_py_thresholding.html
 
-        # return image.copy()
-        # --------------------------------------------------------------------------------
-        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        blurred_image = cv2.blur(gray_image, SOBEL_BLUR_KERNEL_SHAPE)
-
-        gradient_x = cv2.Sobel(blurred_image, ddepth=cv2.CV_32F, dx=1, dy=0, ksize=-1)
-        gradient_y = cv2.Sobel(blurred_image, ddepth=cv2.CV_32F, dx=0, dy=1, ksize=-1)
-        gradient_x_image = cv2.convertScaleAbs(gradient_x)
-        gradient_y_image = cv2.convertScaleAbs(gradient_y)
-        edges = cv2.addWeighted(gradient_x_image, 0.5, gradient_y_image, 0.5, 0)
-
-        (_, thresholded) = cv2.threshold(edges, EDGES_LOWER_THRESHOLD, 255, cv2.THRESH_BINARY)
-
-        return thresholded
+        return image.copy()

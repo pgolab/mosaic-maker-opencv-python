@@ -22,14 +22,8 @@ class MosaicImage:
 
     @staticmethod
     def _crop_image_to_patch_size(image, patch_size):
-        # ---------------------------------------------------------------------------------------
         # ToDo crop image so it is divisible by patch_size
-        # return image
-        # ---------------------------------------------------------------------------------------
-        height, width, _ = image.shape
-        new_width = width - width % patch_size
-        new_height = height - height % patch_size
-        return image[0:new_height, 0:new_width]
+        return image
 
     def compose_mosaic(self):
         print('BUILDING MOSAIC')
@@ -59,26 +53,13 @@ class MosaicImage:
         self.processing_image = False
 
     def _select_patch_for(self, x, y, mosaic, sobel_mosaic, target_image_copy, target_sobel_image_copy):
-        # ---------------------------------------------------------------------------------------
         # ToDo create patch for current position
 
         # ToDo select patch from patch picker
 
         # ToDo update mosaic and draw current window representation on images copies
 
-        # return
-        # ---------------------------------------------------------------------------------------
-        patched_part = self.target_image[y:y + self.patch_size, x:x + self.patch_size]
-        sobel_patched_part = self.target_sobel_image[y:y + self.patch_size, x:x + self.patch_size]
-
-        target_patch = Patch('patch', patched_part, sobel_patched_part)
-        selected_patch = self.patch_picker.pick_patch_for(target_patch)
-
-        mosaic[y:y + self.patch_size, x:x + self.patch_size] = selected_patch.image
-        sobel_mosaic[y:y + self.patch_size, x:x + self.patch_size] = selected_patch.sobel_image
-
-        cv2.rectangle(target_image_copy, (x, y), (x + self.patch_size, y + self.patch_size), (0, 255, 0), 1)
-        cv2.rectangle(target_sobel_image_copy, (x, y), (x + self.patch_size, y + self.patch_size), 255, 1)
+        return
 
     def _progress_display_loop(self, mosaic, sobel_mosaic, target_image_copy, target_sobel_image_copy):
         while self.processing_image:

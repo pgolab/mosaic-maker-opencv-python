@@ -70,62 +70,30 @@ class PatchPicker:
 
         for patch in self.patches:
             if USE_SOBEL_DESCRIPTOR:
-                # ------------------------------------------------------------------------
                 # ToDo extract sobel part of patches features
 
                 # ToDo compare both vectors - what metric seems good for this end?
                 # https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
 
-                # sobel_distances = np.append(sobel_distances, 0)
-                # ------------------------------------------------------------------------
-                patch_sobel_vector = patch.features[:sobel_vector_length]
-                target_patch_sobel_vector = target_patch.features[:sobel_vector_length]
-
-                diff = (target_patch_sobel_vector - patch_sobel_vector) ** 2
-                distance = np.sum(diff)
-
-                sobel_distances = np.append(sobel_distances, distance)
+                sobel_distances = np.append(sobel_distances, 0)
 
             if USE_HISTOGRAM_DESCRIPTOR:
-                # ------------------------------------------------------------------------
                 # ToDo extract histogram part of patches features - what metric works best?
                 # https://docs.opencv.org/master/d6/dc7/group__imgproc__hist.html#gaf4190090efa5c47cb367cf97a9a519bd
 
-                # ToDo compare awesome opencv compare hist implementation with one written by yourself
-                # histogram_distances = np.append(histogram_distances, 0)
-                # ------------------------------------------------------------------------
-                patch_histogram_vector = patch.features[-HISTOGRAM_VECTOR_LENGTH:]
-                target_patch_histogram_vector = target_patch.features[-HISTOGRAM_VECTOR_LENGTH:]
-
-                distance = cv2.compareHist(target_patch_histogram_vector, patch_histogram_vector, cv2.HISTCMP_CHISQR_ALT)
-                histogram_distances = np.append(histogram_distances, distance)
+                histogram_distances = np.append(histogram_distances, 0)
 
         if USE_SOBEL_DESCRIPTOR and not USE_HISTOGRAM_DESCRIPTOR:
-            # ------------------------------------------------------------------------
             # ToDo get best patch index based on sobel distances
             # https://docs.scipy.org/doc/numpy/reference/generated/numpy.argmin.html
-            # best_patch_index = np.random.randint(0, self.patches.size)
-            # ------------------------------------------------------------------------
-            best_patch_index = np.argmin(sobel_distances)
+            best_patch_index = np.random.randint(0, self.patches.size)
         elif USE_HISTOGRAM_DESCRIPTOR and not USE_SOBEL_DESCRIPTOR:
-            # ------------------------------------------------------------------------
             # ToDo get best patch index based on histogram distances
             # https://docs.scipy.org/doc/numpy/reference/generated/numpy.argmin.html
-            # best_patch_index = np.random.randint(0, self.patches.size)
-            # ------------------------------------------------------------------------
-            best_patch_index = np.argmin(histogram_distances)
+            best_patch_index = np.random.randint(0, self.patches.size)
         elif USE_HISTOGRAM_DESCRIPTOR and USE_SOBEL_DESCRIPTOR:
-            # ------------------------------------------------------------------------
             # ToDo combine sobel and histogram information
-            # best_patch_index = np.random.randint(0, self.patches.size)
-            # ------------------------------------------------------------------------
-            sobel_distances_diff = sobel_distances - min(sobel_distances)
-            histogram_distances_diff = histogram_distances - min(histogram_distances)
-
-            min_histogram_distance = np.min(histogram_distances_diff) * (1 + ACCEPTED_HISTOGRAM_DISTANCE_MARGIN)
-            best_matched_indices = np.where(histogram_distances_diff <= min_histogram_distance)[0]
-            chosen_patches_values = sobel_distances_diff[best_matched_indices]
-            best_patch_index = best_matched_indices[np.argmin(chosen_patches_values)]
+            best_patch_index = np.random.randint(0, self.patches.size)
         else:
             best_patch_index = 0
 

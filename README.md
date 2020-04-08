@@ -2,15 +2,16 @@
 
 ## About
 
-The repository contains materials for classes at MIM UW.
+The repository contains materials for my classes at 
+[MIM UW](https://www.mimuw.edu.pl/).
 
-The subject of these classes is the implementation of Mosaic generator. Take a
+The subject of these classes is the implementation of mosaic generator. Take a
 look at the picture of the cat below.
 
 ![Example](notebooks/assets/0-intro/cat-output-small.jpg)
 
-What looks like a pixelated picture remembering DOS era is a composition made 
-out of a lot of smaller cats images:
+What looks like a pixelated picture from the DOS era, is a composition made
+of a lot of the smaller cats images:
 
 ![ExampleZoom](notebooks/assets/0-intro/cat-output-zoom.jpg)
 
@@ -22,9 +23,9 @@ also [here](https://www.kaggle.com/crawford/cat-data)) to create the image
 above. You can find the original image 
 [here](https://unsplash.com/photos/OE7H8Zp1mw8).
 
-The aim is to create an algorithm that generates *mosaic images* from the 
-*target* and *source images* given as an input. By target image, I mean image 
-that we want to recreate and as source images a set of pictures that will be 
+The aim is to create an algorithm that generates *mosaic* from the 
+*target* and *source images* given as an input. By *target image*, I mean image 
+that we want to recreate and by *source images* a set of pictures that will be 
 used for the final composition.
 
 ## About the algorithm
@@ -32,7 +33,8 @@ used for the final composition.
 The algorithm presented here is by no means any competition to the state of art
 mosaic creation solutions. This project is meant to introduce basic *Numpy* and
 *OpenCV* functions in a fun, exciting way, not to build the best mosaic creation
-algorithm available. On the bright side, it is pretty fast :-)
+algorithm available. On the bright side, it is relatively fast thanks to 
+histograms usage :-)
 
 You can find a description of the algorithm is in the Jupyter notebooks (see the
 next section for details).
