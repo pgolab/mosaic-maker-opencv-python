@@ -11,8 +11,9 @@ def generate_patches_set(set_name, patch_size, count, target_width, target_heigh
     images_path = PROJECT_ROOT / f'assets/source-images/{set_name}'
     images_path.mkdir(parents=True, exist_ok=True)
 
-    # ToDo generate full color patches
-    full_color_images = []
+    colors = list(AVAILABLE_COLORS_DICT.values())
+    colors.append((255, 255, 255))
+    full_color_images = list(map(lambda color: np.full((patch_size, patch_size, 3), color, dtype=np.uint8), colors))
 
     generated_patches = 0
 
@@ -28,9 +29,7 @@ def generate_patches_set(set_name, patch_size, count, target_width, target_heigh
                 if generated_patches >= count:
                     continue
 
-                # ToDo get patch from generated image
-                # https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
-                patch = np.full((patch_size, patch_size, 3), (0, 0, 0), dtype=np.uint8)
+                patch = generated_image[y:y + patch_size, x:x + patch_size]
 
                 is_patch_interesting = True
 
