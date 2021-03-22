@@ -19,7 +19,7 @@ You can find the full-size image version at
 `notebooks/assets/0-intro/cat-output.jpg`.
 
 I used the [cat dataset](https://archive.org/details/CAT_DATASET/) (available 
-also [here](https://www.kaggle.com/crawford/cat-data)) to create the image 
+also [here](https://www.kaggle.com/crawford/cat-dataset)) to create the image 
 above. You can find the original image 
 [here](https://unsplash.com/photos/OE7H8Zp1mw8).
 
